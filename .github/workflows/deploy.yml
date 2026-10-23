@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SITE_URL: https://yuch555.github.io
+      PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

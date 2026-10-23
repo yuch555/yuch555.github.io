@@ -5,6 +5,7 @@ const links = [
   { href: '#works', label: '制作事例' },
   { href: '#career', label: '経歴' },
   { href: '#skills', label: 'スキル' },
+  ...(import.meta.env.PUBLIC_WEB3FORMS_KEY ? [{ href: '#contact', label: '連絡' }] : []),
 ];
 ---
 
