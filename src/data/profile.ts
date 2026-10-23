@@ -56,6 +56,29 @@ export const works: Work[] = [
   },
 ];
 
+// 経歴の使用技術タグに付けるアイコン。ここにない技術は、文字だけで出す。
+export const techIcons: Record<string, Omit<Skill, 'name'>> = {
+  React: { brands: ['react'] },
+  TypeScript: { brands: ['typescript'] },
+  'Next.js': { brands: ['nextdotjs'] },
+  jQuery: { brands: ['jquery'] },
+  Java: { logo: 'java' },
+  'Spring Boot': { brands: ['springboot'] },
+  'Java Servlet': { symbol: 'code' },
+  JSP: { symbol: 'code' },
+  WACs: { symbol: 'code' },
+  'C#': { symbol: 'code' },
+  'ASP.NET': { brands: ['dotnet'] },
+  MySQL: { brands: ['mysql'] },
+  PostgreSQL: { brands: ['postgresql'] },
+  'Cloud Spanner': { brands: ['googlecloudspanner'] },
+  Git: { brands: ['git'] },
+  'Git / GitHub': { brands: ['git', 'github'] },
+  'Claude Code': { symbol: 'terminal' },
+  Mermaid: { brands: ['mermaid'] },
+  RPA: { symbol: 'smart_toy' },
+};
+
 export type Job = {
   role: string;
   start: string;

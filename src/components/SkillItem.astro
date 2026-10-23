@@ -1,5 +1,5 @@
 ---
-import * as simpleIcons from 'simple-icons';
+import TechIcon from './TechIcon.astro';
 import type { Skill } from '../data/profile';
 
 interface Props {
@@ -7,38 +7,9 @@ interface Props {
 }
 
 const { item } = Astro.props;
-
-// src/assets/logos/ の SVG。色の指定を取り除いて、墨藍の単色で出す
-const logos = import.meta.glob<string>('../assets/logos/*.svg', { query: '?raw', import: 'default', eager: true });
-const logoSvg = item.logo
-  ? logos[`../assets/logos/${item.logo}.svg`]
-      ?.replace(/ fill="[^"]*"/g, '')
-      .replace('<svg ', '<svg class="size-6 fill-current" role="img" ')
-  : undefined;
-
-// Simple Icons は、スラッグ(例: nextdotjs)から siNextdotjs のように引く
-const brandIcon = (slug: string) =>
-  (simpleIcons as unknown as Record<string, { title: string; path: string } | undefined>)[
-    `si${slug[0].toUpperCase()}${slug.slice(1)}`
-  ];
 ---
 
 <li class="flex items-center gap-3">
-  <span class="flex shrink-0 items-center gap-1 text-sumi" aria-hidden="true">
-    {
-      item.brands?.map((slug) => {
-        const icon = brandIcon(slug);
-        return (
-          icon && (
-            <svg viewBox="0 0 24 24" class="size-6 fill-current" role="img">
-              <path d={icon.path} />
-            </svg>
-          )
-        );
-      })
-    }
-    {logoSvg && <Fragment set:html={logoSvg} />}
-    {item.symbol && <span class="material-symbols-outlined" style="font-size: 1.5rem">{item.symbol}</span>}
-  </span>
+  <TechIcon brands={item.brands} logo={item.logo} symbol={item.symbol} />
   {item.name}
 </li>

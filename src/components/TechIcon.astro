@@ -1,0 +1,46 @@
+---
+// 言語・技術のアイコン。ロゴ(Simple Icons / src/assets/logos/)か、Material Symbols を、墨藍の単色で出す。
+import * as simpleIcons from 'simple-icons';
+
+interface Props {
+  brands?: string[];
+  logo?: string;
+  symbol?: string;
+  size?: 'sm' | 'md';
+}
+
+const { brands, logo, symbol, size = 'md' } = Astro.props;
+const svgSize = size === 'sm' ? 'size-4' : 'size-6';
+const symbolSize = size === 'sm' ? '1rem' : '1.5rem';
+
+// src/assets/logos/ の SVG。色の指定を取り除いて、単色で出す
+const logos = import.meta.glob<string>('../assets/logos/*.svg', { query: '?raw', import: 'default', eager: true });
+const logoSvg = logo
+  ? logos[`../assets/logos/${logo}.svg`]
+      ?.replace(/ fill="[^"]*"/g, '')
+      .replace('<svg ', `<svg class="${svgSize} fill-current" role="img" `)
+  : undefined;
+
+// Simple Icons は、スラッグ(例: nextdotjs)から siNextdotjs のように引く
+const brandIcon = (slug: string) =>
+  (simpleIcons as unknown as Record<string, { title: string; path: string } | undefined>)[
+    `si${slug[0].toUpperCase()}${slug.slice(1)}`
+  ];
+---
+
+<span class="flex shrink-0 items-center gap-1 text-sumi" aria-hidden="true">
+  {
+    brands?.map((slug) => {
+      const icon = brandIcon(slug);
+      return (
+        icon && (
+          <svg viewBox="0 0 24 24" class={`${svgSize} fill-current`} role="img">
+            <path d={icon.path} />
+          </svg>
+        )
+      );
+    })
+  }
+  {logoSvg && <Fragment set:html={logoSvg} />}
+  {symbol && <span class="material-symbols-outlined" style={`font-size: ${symbolSize}`}>{symbol}</span>}
+</span>
