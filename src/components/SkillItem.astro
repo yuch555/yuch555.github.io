@@ -1,0 +1,35 @@
+---
+import * as simpleIcons from 'simple-icons';
+import type { Skill } from '../data/profile';
+
+interface Props {
+  item: Skill;
+}
+
+const { item } = Astro.props;
+
+// Simple Icons は、スラッグ(例: nextdotjs)から siNextdotjs のように引く
+const brandIcon = (slug: string) =>
+  (simpleIcons as unknown as Record<string, { title: string; path: string } | undefined>)[
+    `si${slug[0].toUpperCase()}${slug.slice(1)}`
+  ];
+---
+
+<li class="flex items-center gap-3">
+  <span class="flex shrink-0 items-center gap-1 text-sumi" aria-hidden="true">
+    {
+      item.brands?.map((slug) => {
+        const icon = brandIcon(slug);
+        return (
+          icon && (
+            <svg viewBox="0 0 24 24" class="size-6 fill-current" role="img">
+              <path d={icon.path} />
+            </svg>
+          )
+        );
+      })
+    }
+    {item.symbol && <span class="material-symbols-outlined" style="font-size: 1.5rem">{item.symbol}</span>}
+  </span>
+  {item.name}
+</li>

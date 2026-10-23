@@ -116,14 +116,53 @@ export const jobs: Job[] = [
   },
 ];
 
-export const skillGroups = [
-  { name: 'フロントエンド', icon: 'web', items: ['React', 'TypeScript', 'Next.js', 'jQuery'] },
-  { name: 'バックエンド', icon: 'dns', items: ['Java', 'Spring Boot', 'Java Servlet / JSP', 'C# / ASP.NET'] },
-  { name: 'データベース', icon: 'database', items: ['MySQL', 'PostgreSQL', 'Cloud Spanner'] },
-  { name: '開発の進め方', icon: 'account_tree', items: ['基本設計・詳細設計', 'Git / GitHub', 'Mermaid による設計図', 'Claude Code / Codex'] },
-] as const;
+// brands: Simple Icons のスラッグ(ブランドのロゴ)。symbol: Material Symbols の名前(ロゴがないもの)。
+export type Skill = { name: string; brands?: string[]; symbol?: string };
 
-export const certifications = [
-  '基本情報技術者',
-  'Ruby Association Certified Ruby Programmer Gold version 2.1',
-] as const;
+export const skillGroups: { name: string; icon: string; items: Skill[] }[] = [
+  {
+    name: 'フロントエンド',
+    icon: 'web',
+    items: [
+      { name: 'React', brands: ['react'] },
+      { name: 'TypeScript', brands: ['typescript'] },
+      { name: 'Next.js', brands: ['nextdotjs'] },
+      { name: 'jQuery', brands: ['jquery'] },
+    ],
+  },
+  {
+    name: 'バックエンド',
+    icon: 'dns',
+    items: [
+      { name: 'Java', brands: ['openjdk'] },
+      { name: 'Spring Boot', brands: ['springboot'] },
+      { name: 'Java Servlet / JSP', symbol: 'code' },
+      { name: 'C# / ASP.NET', brands: ['dotnet'] },
+    ],
+  },
+  {
+    name: 'データベース',
+    icon: 'database',
+    items: [
+      { name: 'MySQL', brands: ['mysql'] },
+      { name: 'PostgreSQL', brands: ['postgresql'] },
+      { name: 'Cloud Spanner', brands: ['googlecloudspanner'] },
+    ],
+  },
+  {
+    name: '開発の進め方',
+    icon: 'account_tree',
+    items: [
+      { name: '基本設計・詳細設計', symbol: 'architecture' },
+      { name: 'Git', brands: ['git'] },
+      { name: 'GitHub', brands: ['github'] },
+      { name: 'Mermaid による設計図', brands: ['mermaid'] },
+      { name: 'Claude Code / Codex', symbol: 'terminal' },
+    ],
+  },
+];
+
+export const certifications: Skill[] = [
+  { name: '基本情報技術者', symbol: 'verified' },
+  { name: 'Ruby Association Certified Ruby Programmer Gold version 2.1', brands: ['ruby'] },
+];

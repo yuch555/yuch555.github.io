@@ -1,4 +1,5 @@
 ---
+import SkillItem from './SkillItem.astro';
 import { skillGroups, certifications } from '../data/profile';
 ---
 
@@ -16,8 +17,8 @@ import { skillGroups, certifications } from '../data/profile';
                   {g.name}
                 </dt>
                 <dd class="mt-2">
-                  <ul class="space-y-1">
-                    {g.items.map((i) => <li>{i}</li>)}
+                  <ul class="space-y-2">
+                    {g.items.map((item) => <SkillItem item={item} />)}
                   </ul>
                 </dd>
               </div>
@@ -28,8 +29,8 @@ import { skillGroups, certifications } from '../data/profile';
           <span class="material-symbols-outlined text-mizu" aria-hidden="true">workspace_premium</span>
           資格
         </h3>
-        <ul class="mt-2 space-y-1">
-          {certifications.map((c) => <li>{c}</li>)}
+        <ul class="mt-2 space-y-2">
+          {certifications.map((item) => <SkillItem item={item} />)}
         </ul>
       </div>
     </div>
