@@ -15,7 +15,7 @@ const field =
           <div class="max-w-xl">
             <p>お仕事のご相談や面談のご連絡は、こちらからお送りください。お返事はメールでお送りします。</p>
 
-            <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="mt-8 space-y-6">
+            <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="mt-8 space-y-6" novalidate>
               <input type="hidden" name="access_key" value={accessKey} />
               <input type="hidden" name="subject" value="ポートフォリオからのお問い合わせ" />
               <input type="hidden" name="from_name" value="ポートフォリオ" />
@@ -23,15 +23,18 @@ const field =
 
               <div>
                 <label for="contact-name" class="block text-sm">お名前</label>
-                <input id="contact-name" name="name" type="text" required maxlength="100" autocomplete="name" class={field} />
+                <input id="contact-name" name="name" type="text" required maxlength="100" autocomplete="name" aria-describedby="contact-name-error" class={field} />
+                <p id="contact-name-error" data-error-for="name" class="mt-2 text-sm text-[#b42318]" hidden></p>
               </div>
               <div>
                 <label for="contact-email" class="block text-sm">メールアドレス</label>
-                <input id="contact-email" name="email" type="email" required maxlength="200" autocomplete="email" class={field} />
+                <input id="contact-email" name="email" type="email" required maxlength="200" autocomplete="email" aria-describedby="contact-email-error" class={field} />
+                <p id="contact-email-error" data-error-for="email" class="mt-2 text-sm text-[#b42318]" hidden></p>
               </div>
               <div>
                 <label for="contact-message" class="block text-sm">ご用件</label>
-                <textarea id="contact-message" name="message" required minlength="10" maxlength="4000" rows="6" class={field} />
+                <textarea id="contact-message" name="message" required maxlength="4000" rows="6" aria-describedby="contact-message-error" class={field} />
+                <p id="contact-message-error" data-error-for="message" class="mt-2 text-sm text-[#b42318]" hidden></p>
               </div>
 
               <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -52,30 +55,69 @@ const field =
 }
 
 <script>
+  import type { ContactField } from '../scripts/contact-schema';
+
   const form = document.querySelector<HTMLFormElement>('#contact-form');
   const status = document.querySelector<HTMLElement>('#contact-status');
   const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
   if (form && status && button) {
+    // Zod は、フォームに触れたときに初めて読み込む
+    let schema: Promise<typeof import('../scripts/contact-schema')> | undefined;
+    const loadSchema = () => (schema ??= import('../scripts/contact-schema'));
+    form.addEventListener('focusin', loadSchema, { once: true });
+
+    const input = (field: string) => form.elements.namedItem(field) as HTMLInputElement | HTMLTextAreaElement;
+    const errorBox = (field: string) => form.querySelector<HTMLElement>(`[data-error-for="${field}"]`)!;
+
+    const setError = (field: string, message?: string) => {
+      const box = errorBox(field);
+      box.textContent = message ?? '';
+      box.hidden = !message;
+      if (message) input(field).setAttribute('aria-invalid', 'true');
+      else input(field).removeAttribute('aria-invalid');
+    };
+    const setStatus = (text: string, tone: 'info' | 'ok' | 'error') => {
+      status.className = `text-sm ${{ info: 'text-usu', ok: 'text-mizu', error: 'text-[#b42318]' }[tone]}`;
+      status.textContent = text;
+    };
+
+    // 入力欄を離れたときに、その欄だけ確認する。直し始めたらエラーを消す。
+    for (const field of ['name', 'email', 'message']) {
+      input(field).addEventListener('blur', async () => {
+        const value = input(field).value;
+        if (!value) return;
+        const { validateContactField } = await loadSchema();
+        setError(field, validateContactField(field as ContactField, value));
+      });
+      input(field).addEventListener('input', () => setError(field));
+    }
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+      const { validateContact, contactFields } = await loadSchema();
+      const checked = validateContact(Object.fromEntries(new FormData(form)));
+      for (const field of contactFields) setError(field, checked.ok ? undefined : checked.errors[field]);
+      if (!checked.ok) {
+        setStatus('入力内容を確認してください。', 'error');
+        input(contactFields.find((f) => checked.errors[f])!).focus();
+        return;
+      }
+
       button.disabled = true;
-      status.className = 'text-sm text-usu';
-      status.textContent = '送信しています。';
+      setStatus('送信しています。', 'info');
       try {
         const res = await fetch(form.action, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), ...checked.data }),
         });
         const result = await res.json();
         if (!res.ok || !result.success) throw new Error(result.message);
         form.reset();
-        status.className = 'text-sm text-mizu';
-        status.textContent = '送信しました。内容を確認して、メールでお返事します。';
+        setStatus('送信しました。内容を確認して、メールでお返事します。', 'ok');
       } catch {
-        status.className = 'text-sm text-[#b42318]';
-        status.textContent = '送信できませんでした。時間をおいて、もう一度お試しください。';
+        setStatus('送信できませんでした。時間をおいて、もう一度お試しください。', 'error');
       } finally {
         button.disabled = false;
       }
