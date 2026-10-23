@@ -17,6 +17,7 @@ export type Work = {
   url: string;
   host: string;
   image: string;
+  imageHeight: number;
   imageAlt: string;
   role: string;
   description: string;
@@ -30,8 +31,9 @@ export const works: Work[] = [
     kind: 'アーティストの公式サイト',
     url: 'https://gotchahuman.com/',
     host: 'gotchahuman.com',
-    image: '/works/gotchahuman.webp',
-    imageAlt: 'Gotchahuman のトップページ。作家の肖像と「Shigeru Hama」の見出しが並ぶ',
+    image: '/works/gotchahuman-full.webp',
+    imageHeight: 1797,
+    imageAlt: 'Gotchahuman のトップページ。作家の肖像と「Shigeru Hama」の見出し、その下に作品の一覧とお知らせが続く',
     role: 'デザイン・実装・運用',
     description:
       '京都を拠点に、紙・金属・蝋・昆虫などを使ったミクストメディアを制作する現代アート作家、ハマ シゲルさんの公式サイトです。作品、プロフィール、展覧会のお知らせを、作品の静けさを損なわない落ち着いた見た目でまとめました。作家本人が作品やお知らせを更新できる管理画面と、アクセス解析も備えています。',
@@ -43,8 +45,9 @@ export const works: Work[] = [
     kind: '地域の生活情報サイト(個人制作)',
     url: 'https://izumocity-support.vercel.app/',
     host: 'izumocity-support.vercel.app',
-    image: '/works/izumocity-support.webp',
-    imageAlt: '出雲市お役立ちWEBサイトのトップページ。稲佐の浜の写真と、機能への入口が並ぶ',
+    image: '/works/izumocity-support-full.webp',
+    imageHeight: 1340,
+    imageAlt: '出雲市お役立ちWEBサイトのトップページ。稲佐の浜の写真と、機能への入口、外部リンクが縦に並ぶ',
     role: 'デザイン・実装・運用',
     description:
       '出雲市の公式データとオープンデータを使い、暮らしに役立つ情報を1か所にまとめた非公式サイトです。品目からゴミの分別を調べたり、AED や避難所を地図で探したり、市の最新のお知らせを読んだりできます。お知らせは市の公式 RSS から取り込み、1時間ごとに自動で更新します。',

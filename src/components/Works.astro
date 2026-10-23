@@ -14,25 +14,28 @@ import { works } from '../data/profile';
             target="_blank"
             rel="noopener"
             aria-label={`${w.title}を新しいタブで開く`}
-            class={`block lg:col-span-7 ${i % 2 === 1 ? 'lg:order-2' : ''}`}
+            class={`group block lg:col-span-7 ${i % 2 === 1 ? 'lg:order-2' : ''}`}
           >
-            <figure class="overflow-hidden rounded-md border border-sumi/20 bg-white shadow-[10px_10px_0_0_rgb(8_112_122/0.14)]">
-              <div class="flex items-center gap-3 border-b border-sumi/15 bg-kiri px-4 py-2.5" aria-hidden="true">
+            <figure class="work-frame group-hover:translate-x-[6px] group-hover:translate-y-[6px] group-hover:shadow-[4px_4px_0_0_rgb(8_112_122/0.14)] group-focus-visible:translate-x-[6px] group-focus-visible:translate-y-[6px] group-focus-visible:shadow-[4px_4px_0_0_rgb(8_112_122/0.14)] overflow-hidden rounded-md border border-sumi/20 bg-white shadow-[10px_10px_0_0_rgb(8_112_122/0.14)] transition-[transform,box-shadow] duration-200 motion-reduce:transition-none">
+              <div class="relative flex items-center gap-3 border-b border-sumi/15 bg-kiri px-4 py-2.5" aria-hidden="true">
                 <span class="flex gap-1.5">
                   <i class="size-2.5 rounded-full bg-sumi/20" />
                   <i class="size-2.5 rounded-full bg-sumi/20" />
                   <i class="size-2.5 rounded-full bg-sumi/20" />
                 </span>
                 <span class="min-w-0 flex-1 truncate rounded-sm bg-white px-3 py-0.5 text-xs text-usu">{w.host}</span>
+                <span class="work-bar absolute inset-x-0 bottom-[-1px] h-0.5 bg-mizu" />
               </div>
-              <img
-                src={w.image}
-                alt={w.imageAlt}
-                width="1440"
-                height="900"
-                loading="lazy"
-                class="block aspect-[16/10] w-full object-cover object-top"
-              />
+              <div class="aspect-[16/10] overflow-hidden">
+                <img
+                  src={w.image}
+                  alt={w.imageAlt}
+                  width="1440"
+                  height={w.imageHeight}
+                  loading="lazy"
+                  class="work-scan block h-full w-full object-cover"
+                />
+              </div>
             </figure>
           </a>
 

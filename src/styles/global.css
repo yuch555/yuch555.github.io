@@ -122,3 +122,56 @@
     }
   }
 }
+
+/* 制作事例: 画面の枠が、実際のサイトを覗く窓になる。
+   ページをスクロールすると、枠の中のサイトも上から下へスクロールし、
+   URL バーの下の線で、どこまで見たかを示す。
+   スクロール連動に対応していないブラウザや、動きを減らす設定では、上の部分を静止して見せる。 */
+.work-scan {
+  object-position: 50% 0%;
+}
+.work-bar {
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .work-frame {
+      view-timeline: --work block;
+    }
+    /* animation の短縮形は使わない。animation-timeline が短縮形に巻き込まれて、無効になるため */
+    .work-scan {
+      animation-name: work-scan;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --work;
+      animation-range: cover 33% cover 70%;
+    }
+    .work-bar {
+      opacity: 1;
+      animation-name: work-bar;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --work;
+      animation-range: cover 33% cover 70%;
+    }
+    @keyframes work-scan {
+      from {
+        object-position: 50% 0%;
+      }
+      to {
+        object-position: 50% 100%;
+      }
+    }
+    @keyframes work-bar {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
