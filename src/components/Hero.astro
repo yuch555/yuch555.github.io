@@ -25,7 +25,7 @@ const nameParts = profile.name.split(' ');
       width="560"
       height="986"
       fetchpriority="high"
-      class="col-start-1 row-start-2 block h-auto w-[clamp(7rem,15vw,14rem)] self-end justify-self-start md:col-start-2 md:row-start-1"
+      class="col-start-1 row-start-2 block h-auto origin-bottom w-[clamp(7rem,15vw,14rem)] self-end justify-self-start md:col-start-2 md:row-start-1"
     />
     <h1 class="tategaki name-rise col-start-2 row-start-2 self-end md:col-start-3 md:row-start-1" lang="en">{nameParts.map((w) => <span class="block">{w}</span>)}</h1>
   </div>
@@ -40,7 +40,7 @@ const nameParts = profile.name.split(' ');
     <canvas class="lake-canvas absolute inset-0 z-10 size-full touch-pan-y" aria-hidden="true"></canvas>
     <div class="pointer-events-none absolute inset-x-0 top-0 z-20">
       <p class="lake-hint mx-auto max-w-6xl px-6 pt-4 text-sm text-usu">
-        <span class="block max-w-[16em] text-balance">水面に触れると、波が立ちます。</span>
+        <span class="block max-w-[20em]">水面か自画像に触れると、跳ねます。</span>
       </p>
     </div>
   </div>
