@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# 公開しないもの
+docs/
+.playwright-mcp/
+/A1BA80CA-26C7-4347-B94B-F9892D39A45B.PNG

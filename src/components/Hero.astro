@@ -1,0 +1,57 @@
+---
+import { profile } from '../data/profile';
+
+const nameParts = profile.name.split(' ');
+---
+
+<section id="top" class="relative overflow-hidden" style="--name-size: clamp(3.5rem, min(15vh, 22vw), 10rem)">
+  <div class="mx-auto grid min-h-[34rem] max-w-6xl grid-cols-[1fr_auto] items-end gap-x-6 px-6 pt-24 md:grid-cols-[1fr_auto_auto] md:gap-x-12 lg:gap-x-16">
+    <div class="col-span-2 col-start-1 row-start-1 pb-10 md:col-span-1 md:pb-14">
+      <p class="whitespace-nowrap font-mincho text-[clamp(1.625rem,4.8vw,4.25rem)] font-bold leading-[1.35]">
+        {profile.headline.map((line) => <span class="block">{line}</span>)}
+      </p>
+      <div class="mt-6 max-w-[38em] space-y-3 text-[0.9375rem] text-sumi/90 md:mt-8 md:text-base">
+        {profile.lead.map((p) => <p>{p}</p>)}
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3 text-sm">
+        <a href="#works" class="rounded-sm bg-sumi px-5 py-3 text-kiri transition-colors hover:bg-mizu">制作事例を見る</a>
+        <a href="#career" class="rounded-sm border border-sumi/40 px-5 py-3 transition-colors hover:border-mizu hover:text-mizu">経歴を見る</a>
+      </div>
+    </div>
+    <img
+      data-plush
+      src="/profile/plush.webp"
+      alt="React のロゴと、Java のステッカーを貼ったノートパソコンを持って座る、山根のぬいぐるみ"
+      width="640"
+      height="835"
+      fetchpriority="high"
+      class="col-start-1 row-start-2 block h-auto w-[clamp(7.5rem,17vw,16rem)] self-end justify-self-start md:col-start-2 md:row-start-1"
+    />
+    <h1 class="tategaki name-rise col-start-2 row-start-2 self-end md:col-start-3 md:row-start-1" lang="en">{nameParts.map((w) => <span class="block">{w}</span>)}</h1>
+  </div>
+
+  <div class="h-px bg-sumi/50"></div>
+
+  <div data-lake class="relative h-[calc(var(--name-size)*1.4)] overflow-hidden">
+    <div class="lake-fallback mx-auto grid h-full max-w-6xl grid-cols-[1fr_auto] gap-x-6 overflow-hidden px-6 md:gap-x-16" aria-hidden="true">
+      <div></div>
+      <div class="reflection reflection-fade tategaki self-start" lang="en">{nameParts.map((w) => <span class="block">{w}</span>)}</div>
+    </div>
+    <canvas class="lake-canvas absolute inset-0 z-10 size-full touch-pan-y" aria-hidden="true"></canvas>
+    <div class="pointer-events-none absolute inset-x-0 top-0 z-20">
+      <p class="lake-hint mx-auto max-w-6xl px-6 pt-4 text-sm text-usu">
+        <span class="block max-w-[16em] text-balance">水面に触れると、波が立ちます。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // 水面は表示のあとに遅れて読み込む。動きを減らす設定のときは、静止した影のまま。
+  const lake = document.querySelector<HTMLElement>('[data-lake]');
+  if (lake && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const start = () => import('../scripts/lake').then((m) => m.initLake(lake)).catch(() => undefined);
+    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 2500 });
+    else setTimeout(start, 1200);
+  }
+</script>

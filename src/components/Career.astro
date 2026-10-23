@@ -1,0 +1,38 @@
+---
+import { jobs } from '../data/profile';
+---
+
+<section id="career" class="border-t border-sumi/20">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+  <div class="grid gap-x-12 gap-y-10 md:grid-cols-[10rem_1fr]">
+    <h2 class="font-mincho text-3xl font-bold md:sticky md:top-8 md:self-start">経歴</h2>
+    <ol class="space-y-14">
+      {
+        jobs.map((job) => (
+          <li class="relative border-l border-sumi/25 pl-6 md:pl-10">
+            <span class="absolute -left-[5px] top-3 size-[9px] rounded-full bg-mizu" aria-hidden="true" />
+            <p class="font-mincho text-lg font-bold">
+              <time datetime={job.start.replace('.', '-')}>{job.start}</time>
+              <span aria-hidden="true"> – </span>
+              <span class="sr-only">から</span>
+              <time datetime={job.end.replace('.', '-')}>{job.end}</time>
+              <span class="ml-2 font-gothic text-sm font-normal text-usu">{job.duration}</span>
+            </p>
+            <h3 class="mt-2 font-mincho text-2xl font-bold leading-snug">{job.role}</h3>
+            <p class="mt-1 text-usu">{job.project}</p>
+            <div class="mt-4 max-w-[38em] space-y-3">
+              <p>{job.summary}</p>
+              <p>{job.result}</p>
+            </div>
+            <ul class="mt-5 flex flex-wrap gap-2 text-[0.8125rem]" aria-label="使用技術">
+              {job.tech.map((t) => (
+                <li class="rounded-sm border border-sumi/25 px-2.5 py-0.5 leading-6">{t}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+  </div>
+</section>

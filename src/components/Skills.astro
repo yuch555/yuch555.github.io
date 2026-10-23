@@ -1,0 +1,37 @@
+---
+import { skillGroups, certifications } from '../data/profile';
+---
+
+<section id="skills" class="border-t border-sumi/20">
+  <div class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <div class="grid gap-x-12 gap-y-10 md:grid-cols-[10rem_1fr]">
+      <h2 class="font-mincho text-3xl font-bold">スキル</h2>
+      <div>
+        <dl class="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+          {
+            skillGroups.map((g) => (
+              <div>
+                <dt class="flex items-center gap-2 font-mincho text-lg font-bold">
+                  <span class="material-symbols-outlined text-mizu" aria-hidden="true">{g.icon}</span>
+                  {g.name}
+                </dt>
+                <dd class="mt-2">
+                  <ul class="space-y-1">
+                    {g.items.map((i) => <li>{i}</li>)}
+                  </ul>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+        <h3 class="mt-16 flex items-center gap-2 font-mincho text-lg font-bold">
+          <span class="material-symbols-outlined text-mizu" aria-hidden="true">workspace_premium</span>
+          資格
+        </h3>
+        <ul class="mt-2 space-y-1">
+          {certifications.map((c) => <li>{c}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

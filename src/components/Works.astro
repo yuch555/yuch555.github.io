@@ -1,0 +1,64 @@
+---
+import { works } from '../data/profile';
+---
+
+<section id="works" class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+  <h2 class="font-mincho text-3xl font-bold">制作事例</h2>
+
+  <div class="mt-12 space-y-20 md:mt-16 md:space-y-28">
+    {
+      works.map((w, i) => (
+        <article class="grid gap-x-12 gap-y-8 lg:grid-cols-12 lg:items-center">
+          <a
+            href={w.url}
+            target="_blank"
+            rel="noopener"
+            aria-label={`${w.title}を新しいタブで開く`}
+            class={`block lg:col-span-7 ${i % 2 === 1 ? 'lg:order-2' : ''}`}
+          >
+            <figure class="overflow-hidden rounded-md border border-sumi/20 bg-white shadow-[10px_10px_0_0_rgb(8_112_122/0.14)]">
+              <div class="flex items-center gap-3 border-b border-sumi/15 bg-kiri px-4 py-2.5" aria-hidden="true">
+                <span class="flex gap-1.5">
+                  <i class="size-2.5 rounded-full bg-sumi/20" />
+                  <i class="size-2.5 rounded-full bg-sumi/20" />
+                  <i class="size-2.5 rounded-full bg-sumi/20" />
+                </span>
+                <span class="min-w-0 flex-1 truncate rounded-sm bg-white px-3 py-0.5 text-xs text-usu">{w.host}</span>
+              </div>
+              <img
+                src={w.image}
+                alt={w.imageAlt}
+                width="1440"
+                height="900"
+                loading="lazy"
+                class="block aspect-[16/10] w-full object-cover object-top"
+              />
+            </figure>
+          </a>
+
+          <div class="lg:col-span-5">
+            <p class="text-sm text-usu">{w.kind}</p>
+            <h3 class="mt-1 font-mincho text-2xl font-bold leading-snug md:text-3xl">{w.title}</h3>
+            <p class="mt-3 text-sm text-usu">担当: {w.role}</p>
+            <p class="mt-4 max-w-[38em]">{w.description}</p>
+            <ul class="mt-5 flex flex-wrap gap-2 text-[0.8125rem]" aria-label="主な機能">
+              {w.features.map((f) => (
+                <li class="rounded-sm border border-sumi/25 px-2.5 py-0.5 leading-6">{f}</li>
+              ))}
+            </ul>
+            {w.tech.length > 0 && <p class="mt-4 text-sm text-usu">{w.tech.join(' / ')}</p>}
+            <a
+              href={w.url}
+              target="_blank"
+              rel="noopener"
+              class="mt-6 inline-flex items-center gap-1 font-medium text-mizu underline decoration-mizu/40 underline-offset-8 transition-colors hover:decoration-mizu"
+            >
+              サイトを開く
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span>
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
