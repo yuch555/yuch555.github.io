@@ -71,7 +71,7 @@ const fragmentShader = /* glsl */ `
 export function initLake(root: HTMLElement) {
   const canvas = root.querySelector('canvas');
   const name = document.querySelector<HTMLElement>('#top h1');
-  const plush = document.querySelector<HTMLImageElement>('#top [data-plush]');
+  const portrait = document.querySelector<HTMLImageElement>('#top [data-portrait]');
   if (!canvas || !name) return;
 
   let renderer: WebGLRenderer;
@@ -138,13 +138,13 @@ export function initLake(root: HTMLElement) {
         ctx.restore();
       }
     }
-    // ぬいぐるみも水平線を軸に反転して映す(足元が水平線に接している)
-    if (plush?.complete && plush.naturalWidth) {
-      const box = plush.getBoundingClientRect();
+    // 自画像も水平線を軸に反転して映す(足元が水平線に接している)
+    if (portrait?.complete && portrait.naturalWidth) {
+      const box = portrait.getBoundingClientRect();
       ctx.save();
       ctx.translate(box.left - rootRect.left, rootRect.top - box.bottom + box.height);
       ctx.scale(1, -1);
-      ctx.drawImage(plush, 0, 0, box.width, box.height);
+      ctx.drawImage(portrait, 0, 0, box.width, box.height);
       ctx.restore();
     }
     return new CanvasTexture(c);
@@ -226,7 +226,7 @@ export function initLake(root: HTMLElement) {
   // フォントと画像がそろってから、テクスチャを作る
   const ready = [
     document.fonts?.load('800 64px "Shippori Mincho B1"', 'Yuta Yamane'),
-    plush?.decode(),
+    portrait?.decode(),
   ].map((p) => Promise.resolve(p).catch(() => undefined));
   Promise.all(ready).then(start);
 }
