@@ -116,8 +116,9 @@ export const jobs: Job[] = [
   },
 ];
 
-// brands: Simple Icons のスラッグ(ブランドのロゴ)。symbol: Material Symbols の名前(ロゴがないもの)。
-export type Skill = { name: string; brands?: string[]; symbol?: string };
+// brands: Simple Icons のスラッグ(ブランドのロゴ)。logo: src/assets/logos/ の SVG のファイル名。
+// symbol: Material Symbols の名前(ロゴがないもの)。
+export type Skill = { name: string; brands?: string[]; logo?: string; symbol?: string };
 
 export const skillGroups: { name: string; icon: string; items: Skill[] }[] = [
   {
@@ -134,7 +135,7 @@ export const skillGroups: { name: string; icon: string; items: Skill[] }[] = [
     name: 'バックエンド',
     icon: 'dns',
     items: [
-      { name: 'Java', brands: ['openjdk'] },
+      { name: 'Java', logo: 'java' },
       { name: 'Spring Boot', brands: ['springboot'] },
       { name: 'Java Servlet / JSP', symbol: 'code' },
       { name: 'C# / ASP.NET', brands: ['dotnet'] },

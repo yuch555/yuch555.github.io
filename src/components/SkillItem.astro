@@ -8,6 +8,14 @@ interface Props {
 
 const { item } = Astro.props;
 
+// src/assets/logos/ の SVG。色の指定を取り除いて、墨藍の単色で出す
+const logos = import.meta.glob<string>('../assets/logos/*.svg', { query: '?raw', import: 'default', eager: true });
+const logoSvg = item.logo
+  ? logos[`../assets/logos/${item.logo}.svg`]
+      ?.replace(/ fill="[^"]*"/g, '')
+      .replace('<svg ', '<svg class="size-6 fill-current" role="img" ')
+  : undefined;
+
 // Simple Icons は、スラッグ(例: nextdotjs)から siNextdotjs のように引く
 const brandIcon = (slug: string) =>
   (simpleIcons as unknown as Record<string, { title: string; path: string } | undefined>)[
@@ -29,6 +37,7 @@ const brandIcon = (slug: string) =>
         );
       })
     }
+    {logoSvg && <Fragment set:html={logoSvg} />}
     {item.symbol && <span class="material-symbols-outlined" style="font-size: 1.5rem">{item.symbol}</span>}
   </span>
   {item.name}
